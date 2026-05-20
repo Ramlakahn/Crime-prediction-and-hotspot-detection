@@ -10,10 +10,10 @@ from sklearn.decomposition import PCA
 import plotly.express as px
 from prophet.plot import plot_plotly
 
-# Must be the absolute first Streamlit command called
+
 st.set_page_config(page_title="Toronto Crime Analytics AI", layout="wide", initial_sidebar_state="expanded")
 
-# --- HYPER-INTERACTIVE ADVANCED CSS UI ENHANCEMENTS ---
+
 st.markdown("""
     <style>
     /* Global Smooth Scrolling Effect */
@@ -141,7 +141,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# --- CACHED DATA PIPELINE ---
+# CACHED DATA PIPELINE 
 @st.cache_data
 def load_data():
     df = pd.read_csv("MCI_2014_to_2019.csv")
@@ -160,11 +160,11 @@ def load_data():
         st.error(f"Could not find valid temporal columns. Dataset schemas provided: {list(df.columns)}")
         st.stop()
         
-    # FIX: Clean empty rows from core categorical and location metrics to block 'nan' errors
+    #Clean empty rows from core categorical and location metrics to block 'nan' errors
     critical_cols = ['occurrenceyear', 'occurrencemonth', 'occurrencehour', 'MCI', 'Lat', 'Long']
     df = df.dropna(subset=[col for col in critical_cols if col in df.columns])
     
-    # FIX: Cast decimals down to standard integers for filtering arrays
+    #Cast decimals down to standard integers for filtering arrays
     if 'occurrenceyear' in df.columns:
         df['occurrenceyear'] = df['occurrenceyear'].astype(int)
     if 'occurrencehour' in df.columns:
@@ -179,7 +179,7 @@ except FileNotFoundError:
     st.stop()
 
 
-# --- SIDEBAR INTERFACE ---
+
 st.sidebar.markdown("""
     <div class="sidebar-header">
         <h3 style='color: white; margin: 0; font-size: 20px; font-weight: 800;'>🚨 COGNITIVE SYSTEM</h3>
@@ -187,13 +187,13 @@ st.sidebar.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# Read or set default page tracking via URL parameters
+
 if "page" not in st.query_params:
     st.query_params["page"] = "Project Space Overview"
 
 current_page = st.query_params["page"]
 
-# Render Custom HTML Navigation Links
+
 st.sidebar.markdown(f"""
     <div class="nav-container">
         <a href="?page=Project+Space+Overview" class="nav-btn {'nav-btn-active' if current_page == 'Project Space Overview' else ''}" target="_self">📂 PROJECT SPACE OVERVIEW</a>
@@ -206,7 +206,7 @@ st.sidebar.markdown(f"""
 page = current_page
 
 
-# --- LAYER 1: PROJECT OVERVIEW ---
+
 if page == "Project Space Overview":
     st.markdown("<h1 style='color:#00B4D9;'>🛡️ Toronto Predictive Policing Evaluation Portal</h1>", unsafe_allow_html=True)
     
@@ -242,7 +242,7 @@ if page == "Project Space Overview":
         """, unsafe_allow_html=True)
 
 
-# --- LAYER 2: DASHBOARD ---
+
 elif page == "Dashboard":
     st.markdown("<h1 style='color:#00B4D9;'>📊 DASHBOARD</h1>", unsafe_allow_html=True)
     
@@ -294,11 +294,11 @@ elif page == "Dashboard":
         """, unsafe_allow_html=True)
 
 
-# --- LAYER 3: NEIGHBORHOOD CLUSTERING ---
+#NEIGHBORHOOD CLUSTERING ---
 elif page == "Unsupervised Risk Clustering":
     st.markdown("<h1 style='color:#00B4D9;'>🏘️ Unsupervised Spatial Segmentation Engineering</h1>", unsafe_allow_html=True)
     
-    # Preprocessing Matrix pipeline
+    
     df_cluster = df.groupby(['Neighbourhood', 'MCI']).size().unstack(fill_value=0)
     scaler = StandardScaler()
     scaled_data = scaler.fit_transform(df_cluster)
@@ -308,7 +308,7 @@ elif page == "Unsupervised Risk Clustering":
     clusters = kmeans.fit_predict(scaled_data)
     df_cluster['Cluster'] = clusters
 
-    # Dimensionality Reduction Step
+    
     pca = PCA(n_components=2)
     pca_data = pca.fit_transform(scaled_data)
     df_cluster['PCA1'] = pca_data[:, 0]
@@ -343,11 +343,11 @@ elif page == "Unsupervised Risk Clustering":
         """, unsafe_allow_html=True)
 
 
-# --- LAYER 4: CRIME FORECASTING ---
+#CRIME FORECASTING ---
 elif page == "Predictive Forecasting Core":
     st.markdown("<h1 style='color:#00B4D9;'>🔮 Algorithmic Seasonal Forecasting Engine</h1>", unsafe_allow_html=True)
     
-    # ------------------ GEOSPATIAL HOTSPOT MAP SECTION ------------------
+    #GEOSPATIAL HOTSPOT MAP SECTION
     st.markdown("""
     <div class="glass-card">
         <h2 style='color:#00B4D9; margin-top:0;'>🗺️ Chronological Geospatial Hotspot Engine</h2>
@@ -359,7 +359,7 @@ elif page == "Predictive Forecasting Core":
     with m_col1:
         map_mci = st.multiselect("Filter Crime Typologies", options=list(df['MCI'].unique()), default=list(df['MCI'].unique()))
     with m_col2:
-        # FIX: The lists are now completely parsed of NaN elements and integers, avoiding comparison errors
+      
         years_options = sorted(list(df['occurrenceyear'].unique()))
         map_years = st.multiselect("Select Target Years", options=years_options, default=years_options)
     with m_col3:
