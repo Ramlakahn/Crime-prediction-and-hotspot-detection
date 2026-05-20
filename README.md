@@ -52,7 +52,6 @@ By utilizing **Unsupervised Machine Learning** for regional hazard stratificatio
 │ 🏘️ Unsupervised Spatial Segmentation Engineering │
 │ 🔮 Chronological Geospatial Hotspot Engine     │
 └─────────────────────────────────────────────────┘
-
 ```
 
 ---
@@ -136,19 +135,7 @@ This project demonstrates the value of migrating standalone machine learning pro
 
 ---
 
-## 🧑‍💻 Author
 
-* **Project Developer:** Ramlakahn
-* **Major:** Psychology / Computer Science Cross-Disciplinary Analytics Study
-* **Evaluation Target:** College Senior Semester Evaluation Portal
 
-```
 
-***
 
-### Key Features of this README:
-1. **Badges**: Adds professional icons for Streamlit, Python, Scikit-Learn, and Meta Prophet to mimic open-source industry repos.
-2. **Architecture Chart**: An ASCII flowchart mapping out how your code processes raw data through machine learning pipelines into the UI layout.
-3. **Defense Viva Readied**: The results, conclusion, and summary sections are written in clear, academic language to assist you during your individual report evaluation.
-
-```
